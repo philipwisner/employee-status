@@ -1,32 +1,41 @@
 <template>
   <div class="home">
-    <Header />
+    <Searchbar />
     <EmployeeContainer :employees="employees" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Header from "@/components/Header.vue";
+import Searchbar from "@/components/Searchbar.vue";
 import EmployeeContainer from "@/components/EmployeeContainer.vue";
 
 export default {
   name: "home",
   components: {
-    Header,
+    Searchbar,
     EmployeeContainer
   },
   data() {
     return {
-      employees: [
-        {
-          name: "test"
-        },
-        {
-          name: "hi"
-        }
-      ]
+      employees: []
     };
+  },
+  methods: {
+    async getEmployees() {
+      try {
+        const response = await fetch(
+          "http://localhost:3000/status"
+        );
+        const data = await response.json();
+        this.employees = data;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  },
+  mounted() {
+    this.getEmployees();
   }
 };
 </script>
