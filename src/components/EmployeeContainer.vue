@@ -22,7 +22,8 @@ export default {
 
 <style scoped>
   .employee-container {
-    margin-top: 20px;
-    border: 1px solid green;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px -5px 10px -5px;
   }
 </style>
