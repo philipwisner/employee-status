@@ -3,7 +3,7 @@
     <h1 class="title">Employee Status</h1>
     <div class="search-container">
       <input class="searchbar" type="text" placeholder="Search for a user">
-      <img class="search-icon" src="../assets/search.svg" alt="search">
+      <img class="search-icon" src="../assets/search.svg" alt="search" v-on:change="searchUser(text)">
     </div>
   </div>
 </template>
@@ -11,12 +11,13 @@
 <script>
 
 export default {
-  name: 'header',
+  name: 'searchbar',
 }
 </script>
 
 <style scoped>
   .header {
+    margin-top: 10px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
