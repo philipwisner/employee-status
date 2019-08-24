@@ -1,7 +1,13 @@
 <template>
   <div class="home">
-    <Searchbar />
-    <EmployeeContainer :employees="employees" />
+    <Searchbar v-on:search-users="searchEmployees"/>
+    <div v-if="employees && !loading">
+      <EmployeeContainer :employees="employees"/>
+    </div>
+    <div v-if="loading">
+      <!--<img src="../assets/loading.gif" alt="">-->
+      <LoadingSkeleton :employees="employees"/>
+    </div>
   </div>
 </template>
 
@@ -9,16 +15,19 @@
 // @ is an alias to /src
 import Searchbar from "@/components/Searchbar.vue";
 import EmployeeContainer from "@/components/EmployeeContainer.vue";
+import LoadingSkeleton from "@/components/LoadingSkeleton.vue";
 
 export default {
   name: "home",
   components: {
     Searchbar,
-    EmployeeContainer
+    EmployeeContainer,
+    LoadingSkeleton
   },
   data() {
     return {
-      employees: []
+      employees: [],
+      loading: true,
     };
   },
   methods: {
@@ -29,11 +38,20 @@ export default {
         );
         const data = await response.json();
         this.employees = data;
+        this.loading = false;
       } catch (error) {
         console.error(error);
       }
+    },
+    searchEmployees(searchText) {
+      console.log('searchEMployees', searchText);
+      return this.employees.filter(employee => {
+        employee.name == searchText;
+      })
     }
   },
+
+
   mounted() {
     this.getEmployees();
   }
