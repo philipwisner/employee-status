@@ -2,8 +2,8 @@
   <div class="header">
     <h1 class="title">Employee Status</h1>
     <div class="search-container">
-      <input class="searchbar" type="text" placeholder="Search for a user">
-      <img class="search-icon" src="../assets/search.svg" alt="search" v-on:change="searchUser(text)">
+      <input class="searchbar" v-model="searchText" type="text" placeholder="Search for a user" @input="searchUser()">
+      <img class="search-icon" src="../assets/search.svg" alt="search">
     </div>
   </div>
 </template>
@@ -12,6 +12,16 @@
 
 export default {
   name: 'searchbar',
+  data () {
+    return {
+      searchText: ''
+    }
+  },
+  methods: {
+    searchUser: function() {
+      this.$emit('search-users', this.searchText);
+    }
+  }
 }
 </script>
 

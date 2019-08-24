@@ -1,5 +1,5 @@
 <template>
-  <div class="employee-container">
+  <div class="employee-container" v-if="employees">
     <div :key="employee.id" v-for="employee in employees">
       <Employee :employee="employee"/>
     </div>
