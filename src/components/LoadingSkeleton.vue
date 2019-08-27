@@ -20,12 +20,12 @@ export default {
 .skeleton {
   display: flex;
   flex-wrap: wrap;
-  margin: 20px -5px 10px -5px;
+  margin: 0px -5px 10px -5px;
 }
 .employee {
   background: #e8e8e8;
   border-radius: 3px;
-  width: 448px;
+  width: 447px;
   height: 112px;
   margin: 5px;
 }
