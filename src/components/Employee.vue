@@ -1,5 +1,5 @@
 <template>
-  <div class="employee">
+  <div class="employee" :class="{'dark': darkMode}">
     <div class="employee-content">
       <div class="image">
         <img class="avatar" :src="employee.profile.image_192" alt="image" />
@@ -33,7 +33,8 @@
 export default {
   name: "Employee",
   props: {
-    employee: Object
+    employee: Object,
+    darkMode: Boolean
   }
 };
 </script>
@@ -47,15 +48,19 @@ export default {
   margin: 5px;
   min-width: 415px;
   max-height: 90px;
+  background: white;
 }
-
+.employee.dark {
+  background: #6A6A6A;
+  border: 1px solid transparent;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.33);
+}
 .employee-content {
   display: flex;
   align-items: center;
   align-content: stretch;
   justify-content: center;
 }
-
 .image {
   flex: 0 1 auto;
 }
@@ -74,8 +79,14 @@ export default {
   font-size: 22px;
   font-weight: 600;
 }
+.employee.dark .name {
+  color: white;
+}
 .username {
   color: #747474;
+}
+.employee.dark .username {
+  color: white;
 }
 .status {
   display: flex;

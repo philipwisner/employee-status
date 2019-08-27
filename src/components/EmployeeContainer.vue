@@ -1,7 +1,7 @@
 <template>
   <div class="employee-container" v-if="employees">
     <div :key="employee.id" v-for="employee in employees">
-      <Employee :employee="employee"/>
+      <Employee :employee="employee" :darkMode="darkMode"/>
     </div>
   </div>
 </template>
@@ -15,7 +15,8 @@ export default {
     Employee
   },
   props: {
-    employees: Array
+    employees: Array,
+    darkMode: Boolean
   }
 }
 </script>
@@ -24,6 +25,9 @@ export default {
   .employee-container {
     display: flex;
     flex-wrap: wrap;
-    margin: 20px -5px 10px -5px;
+    margin: 0px -5px 0px -5px;
+    height: calc(100vh - 162px);
+    overflow-y: auto;
+    padding-bottom: 20px;
   }
 </style>

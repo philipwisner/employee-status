@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" :class="{'dark': darkMode}">
     <h1 class="title">Employee Status</h1>
     <div class="search-container">
       <input class="searchbar" v-model="searchText" type="text" placeholder="Search for a user" @input="searchUser()">
@@ -12,6 +12,9 @@
 
 export default {
   name: 'searchbar',
+  props: {
+    darkMode: Boolean
+  },
   data () {
     return {
       searchText: ''
@@ -50,6 +53,11 @@ export default {
     font-size: 16px;
     width: 100%;
     max-width: 500px;
+    background: none;
+  }
+  .header.dark .search-container .searchbar{
+    border: 1px solid white;
+    color: white;
   }
   .search-icon {
     position: absolute;

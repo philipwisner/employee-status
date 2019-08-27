@@ -1,8 +1,9 @@
 <template>
-  <div class="home">
-    <Searchbar v-on:search-users="searchEmployees"/>
+  <div class="home" :class="{'dark': darkMode}">
+    <Searchbar v-on:search-users="searchEmployees" :darkMode="darkMode"/>
+    <Filterbar :darkMode="darkMode" v-on:update-dark-mode="updateDateMode"/>
     <div v-if="employees && !loading">
-      <EmployeeContainer :employees="employees"/>
+      <EmployeeContainer :darkMode="darkMode" :employees="employees"/>
     </div>
     <div v-if="loading">
       <!--<img src="../assets/loading.gif" alt="">-->
@@ -14,6 +15,7 @@
 <script>
 // @ is an alias to /src
 import Searchbar from "@/components/Searchbar.vue";
+import Filterbar from "@/components/Filterbar.vue";
 import EmployeeContainer from "@/components/EmployeeContainer.vue";
 import LoadingSkeleton from "@/components/LoadingSkeleton.vue";
 
@@ -21,6 +23,7 @@ export default {
   name: "home",
   components: {
     Searchbar,
+    Filterbar,
     EmployeeContainer,
     LoadingSkeleton
   },
@@ -28,6 +31,7 @@ export default {
     return {
       employees: [],
       loading: true,
+      darkMode: false,
     };
   },
   methods: {
@@ -48,6 +52,10 @@ export default {
       return this.employees.filter(employee => {
         employee.name == searchText;
       })
+    },
+    updateDateMode(mode) {
+      console.log('updateDarkMode', mode);
+      this.darkMode = mode;
     }
   },
 
@@ -61,6 +69,10 @@ export default {
 <style scoped>
 .home {
   padding: 20px 50px;
-  height: calc(100vh - 42px);
+  height: calc(100vh - 40px);
+}
+.home.dark {
+  background: #383838;
+  color: white;
 }
 </style>
