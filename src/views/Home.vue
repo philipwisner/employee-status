@@ -1,7 +1,7 @@
 <template>
   <div class="home" :class="{'dark': darkMode}">
     <Searchbar v-on:search-users="searchEmployees" :darkMode="darkMode"/>
-    <Filterbar :darkMode="darkMode" v-on:update-dark-mode="updateDateMode"/>
+    <Filterbar :darkMode="darkMode" :channels="channels" v-on:update-dark-mode="updateDateMode" v-on:selected-channel="getEmployees"/>
     <div v-if="employees && !loading">
       <EmployeeContainer :darkMode="darkMode" :employees="employees"/>
     </div>
@@ -30,16 +30,19 @@ export default {
   data() {
     return {
       employees: [],
+      channels: [],
       loading: true,
       darkMode: false,
     };
   },
   methods: {
-    async getEmployees() {
+    async getEmployees(selectedChannel) {
+       if (!selectedChannel) {
+         selectedChannel = 'GDVTDFL4A';
+       }
+      console.log('selectedChannel is', selectedChannel);
       try {
-        const response = await fetch(
-          "http://localhost:3000/status"
-        );
+        const response = await fetch(`http://localhost:3000/status/${selectedChannel}`);
         const data = await response.json();
         this.employees = data;
         this.loading = false;
@@ -47,6 +50,43 @@ export default {
         console.error(error);
       }
     },
+    async getChannels() {
+      try {
+        const response = await fetch(
+          "http://localhost:3000/channels",
+        );
+        const data = await response.json();
+        this.channels = data.map(channel => {
+          let format = {};
+          format.id = channel.id;
+          format.name = channel.name;
+          return format;
+        })
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getMembers(channelId) {
+      try {
+        const response = await fetch(
+          "http://localhost:3000/members", {
+            params: {
+              channel: channelId
+            }
+          }
+        );
+        const data = await response.json();
+        this.channels = data.map(channel => {
+          let format = {};
+          format.id = channel.id;
+          format.name = channel.name;
+          return format;
+        })
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     searchEmployees(searchText) {
       console.log('searchEMployees', searchText);
       return this.employees.filter(employee => {
@@ -62,6 +102,7 @@ export default {
 
   mounted() {
     this.getEmployees();
+    this.getChannels();
   }
 };
 </script>
